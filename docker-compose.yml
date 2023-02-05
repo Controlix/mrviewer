@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   gitlab:
-    image: gitlab/gitlab-ee:latest
+    image: gitlab/gitlab-ee:latest # root/RX86,tpUN=P)nf2#
     ports:
       - 80:80
       - 443:443
@@ -11,8 +11,12 @@ services:
       - gitlab_logs:/var/log/gitlab
       - gitlab_data:/var/opt/gitlab
     shm_size: '256m'
-    
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
 volumes:
   gitlab_logs:
   gitlab_data:
+
+
 

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(value = ["/gitlab/hooks"])
 class GitlabHook(val mrRepository: MrRepository) {
 
-    @PostMapping
-    fun anything(@RequestBody body: String) {
-        println("Got new mr: [${body}]")
-        mrRepository.save(Mr(payload = body))
+    @PostMapping("/mr")
+    fun mr(@RequestBody event: MrEvent) {
+        println("Got new mr: [${event}]")
+        mrRepository.save(Mr(payload = event.toString()))
     }
 }
