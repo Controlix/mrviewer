@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Get MR Under Control</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/styles/mr.css}" rel="stylesheet">
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${mr.empty}">
+                <td colspan="2">No MR Available</td>
+            </tr>
+            <tr th:each="mr : ${mr}">
+                <td><span th:text="${mr.id}">21a16200</span></td>
+                <td><span th:text="${mr.payload}">lalalala</span></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
