@@ -14,6 +14,7 @@
 	<name>mrviewer</name>
 	<description>Keep track of MR that need my attention</description>
 	<properties>
+		<cucumber.version>7.11.1</cucumber.version>
 		<java.version>17</java.version>
 		<kotlin.version>1.7.22</kotlin.version>
 		<spring-cloud.version>2022.0.1</spring-cloud.version>
@@ -78,7 +79,26 @@
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
