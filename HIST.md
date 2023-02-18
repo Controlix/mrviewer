@@ -18,3 +18,17 @@ After the basic setup
 - create a demo project
 - push this codebase to that project
 - setup a webhook for merge-requests that calls the spring-boot app
+
+## Cucumber tests
+
+#### polymorphic
+Run the same cucumber scenario with different implementations
+- input data
+  - directly in the domain repository
+  - through the webhook endpoint
+- verify result
+  - directly in the domain repository
+  - through the spring controller
+  - from the web UI
+
+

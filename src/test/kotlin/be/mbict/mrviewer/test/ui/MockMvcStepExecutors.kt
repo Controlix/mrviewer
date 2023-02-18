@@ -14,8 +14,8 @@ import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
 @Component
-@ConditionalOnProperty(value = ["output"], havingValue = "ui")
-class UiOutputStepExecutor(private val mockMvc: MockMvc) : OutputStepExecutor {
+@ConditionalOnProperty(value = ["output"], havingValue = "mockmvc")
+class MockMvcOutputStepExecutor(private val mockMvc: MockMvc) : OutputStepExecutor {
 
     override fun checkMrIsFirst(identifier: String) {
         mockMvc.get("/ui")
@@ -30,8 +30,8 @@ class UiOutputStepExecutor(private val mockMvc: MockMvc) : OutputStepExecutor {
 }
 
 @Component
-@ConditionalOnProperty(value = ["input"], havingValue = "ui")
-class UiInputStepExecutor(
+@ConditionalOnProperty(value = ["input"], havingValue = "mockmvc")
+class MockMvcInputStepExecutor(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper
 ): InputStepExecutor {
@@ -41,7 +41,7 @@ class UiInputStepExecutor(
     override fun addMr(identifier: String) {
         mockMvc.post("/gitlab/hooks/mr") {
             contentType = MediaType.APPLICATION_JSON
-            content = mapper.writeValueAsString(easyRandom.nextObject(MrEvent::class.java).copy(objectKind = "AZertY"))
+            content = mapper.writeValueAsString(easyRandom.nextObject(MrEvent::class.java).copy(objectKind = identifier))
         }.andExpect {
             status { isOk() }
         }
