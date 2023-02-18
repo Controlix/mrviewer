@@ -9,13 +9,16 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext
+import org.springframework.boot.web.servlet.context.ServletWebServerInitializedEvent
+import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
 @Component
 @ConditionalOnProperty(value = ["output"], havingValue = "webdriver")
 class WebdriverOutputStepExecutor : OutputStepExecutor {
 
-    private var port: Int = 9987
+    private var port: Int = 0
     private lateinit var driver: WebDriver
 
     @PostConstruct
@@ -27,6 +30,11 @@ class WebdriverOutputStepExecutor : OutputStepExecutor {
     @PreDestroy
     fun close() {
         driver.quit()
+    }
+
+    @EventListener
+    fun configureServerPort(event: ServletWebServerInitializedEvent) {
+        port = event.webServer.port
     }
 
     override fun checkMrIsFirst(identifier: String) {
