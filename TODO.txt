@@ -1,5 +1,5 @@
 Todo:
--
+- add gitlab token glpat-VTU9ysJdPGSjCponfQj7
 
 Done:
 - create webhook in gitlab that calls localhost:9987/gitlab/hooks
