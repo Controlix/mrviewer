@@ -9,7 +9,6 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext
 import org.springframework.boot.web.servlet.context.ServletWebServerInitializedEvent
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component

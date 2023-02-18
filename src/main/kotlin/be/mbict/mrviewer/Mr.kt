@@ -11,29 +11,11 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 @Entity
 class Mr(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Int?=null,
-    @Column(length = 4096) val payload: String) {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Int? = null,
+    @Column(length = 4096) val payload: String
+) {
 
 }
 
-interface MrRepository: JpaRepository<Mr, Int>
+interface MrRepository : JpaRepository<Mr, Int>
 
-@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy::class)
-data class MrEvent(
-    val objectKind: String,
-    val eventType: String,
-    val user: User,
-    val project: Project,
-)
-
-data class User(
-    val id: Int,
-    val name: String,
-    val username: String
-)
-
-data class Project(
-    val id: Int,
-    val name: String,
-    val namespace: String
-)

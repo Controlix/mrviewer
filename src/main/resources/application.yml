@@ -1,3 +1,26 @@
 server:
   port: 9987
 
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            loggerLevel: FULL
+    discovery:
+      client:
+        simple:
+          instances:
+            gitlab:
+              - uri: http://localhost
+
+logging.level:
+  be.mbict.mrviewer.GitlabClient: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
