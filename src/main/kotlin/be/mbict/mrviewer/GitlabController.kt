@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 class GitlabController(private val gitlabClient: GitlabClient) {
 
     @GetMapping("/mr")
-    fun listAllMr(@RequestParam("state") state: String?) = gitlabClient.allMr(state)
+    fun listAllMr(@RequestParam("project") projectId: Int) = gitlabClient.allMr(projectId)
 
     @GetMapping("/pr")
     fun listAllPr() = gitlabClient.allProjects()

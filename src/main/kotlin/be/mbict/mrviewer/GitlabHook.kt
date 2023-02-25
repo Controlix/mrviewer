@@ -38,8 +38,7 @@ data class User(
 
 data class Project(
     val id: Int,
-    val name: String,
-    val namespace: String
+    val name: String
 )
 
 data class ObjectAttributes(

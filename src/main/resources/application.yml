@@ -24,3 +24,5 @@ management:
       exposure:
         include: "*"
 
+gitlab:
+  accessToken: glpat-cvg7xkHyuHMFVgX_hWYg
