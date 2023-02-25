@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
 
 @RestController
 @RequestMapping(value = ["/gitlab/hooks"])
@@ -14,7 +15,7 @@ class GitlabHook(val mrRepository: MrRepository) {
     @PostMapping("/mr")
     fun mr(@RequestBody event: MrEvent) {
         println("Got new mr: [${event}]")
-        mrRepository.save(Mr(payload = event.toString()))
+        mrRepository.save(Mr(title = event.objectAttributes.title,createdAt = event.objectAttributes.createdAt))
     }
 }
 
@@ -43,5 +44,7 @@ data class Project(
 
 data class ObjectAttributes(
     val action: String?,
-    val state: String?
+    val state: String?,
+    val createdAt: LocalDateTime,
+    val title: String
 )

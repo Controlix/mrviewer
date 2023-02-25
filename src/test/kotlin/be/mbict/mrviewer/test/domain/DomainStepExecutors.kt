@@ -10,13 +10,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.jeasy.random.EasyRandom
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 @Component
 @ConditionalOnProperty(value = ["output"], havingValue = "domain")
 class DomainOutputStepExecutor(private val mrRepository: MrRepository): OutputStepExecutor {
 
     override fun checkMrIsFirst(identifier: String) {
-        assertThat(mrRepository.findAll().first().payload).contains("AZertY")
+        assertThat(mrRepository.findAll().first().title).contains("AZertY")
     }
 }
 @Component
@@ -29,7 +30,7 @@ class DomainInputStepExecutor(
     val easyRandom = EasyRandom()
 
     override fun addMr(identifier: String) {
-        mrRepository.save(Mr(payload = mapper.writeValueAsString(easyRandom.nextObject(MrEvent::class.java).copy(objectKind = identifier))))
+        mrRepository.save(Mr(title = identifier, createdAt = LocalDateTime.now()))
     }
 
 }

@@ -10,16 +10,20 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Content</th>
+                <th>Created At</th>
+                <th>Title</th>
+                <th>Draft</th>
             </tr>
         </thead>
         <tbody>
             <tr th:if="${mr.empty}">
-                <td colspan="2">No MR Available</td>
+                <td colspan="4">No MR Available</td>
             </tr>
             <tr th:each="mr : ${mr}">
-                <td><span th:text="${mr.id}">21a16200</span></td>
-                <td><span th:text="${mr.payload}">lalalala</span></td>
+                <td><span th:text="${mr.id}">21</span></td>
+                <td><span th:text="${mr.createdAt}">2023-02-05T15:01:20.361Z</span></td>
+                <td><span th:text="${mr.title}">Initial setup</span></td>
+                <td><input type="checkbox" disabled="disabled" name="draft" th:checked="${mr.draft}"></td>
             </tr>
         </tbody>
     </table>
