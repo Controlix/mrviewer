@@ -23,7 +23,7 @@ class MockMvcOutputStepExecutor(private val mockMvc: MockMvc) : OutputStepExecut
                 status { isOk() }
                 view { name("mr") }
                 content {
-                    string(Matchers.containsString("<td><span>MrEvent(objectKind=$identifier"))
+                    string(Matchers.containsString("<td><span>$identifier</span>"))
                 }
             }
     }

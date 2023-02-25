@@ -38,11 +38,7 @@ class WebdriverOutputStepExecutor : OutputStepExecutor {
 
     override fun checkMrIsFirst(identifier: String) {
         driver.get("http://localhost:${port}/ui")
-        val text = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[2]/span")).text
-        assertThat(text).contains(
-            """
-            "object_kind":"$identifier"
-            """.trimIndent()
-        )
+        val text = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/span")).text
+        assertThat(text).contains(identifier)
     }
 }
