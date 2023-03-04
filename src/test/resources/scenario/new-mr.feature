@@ -5,3 +5,8 @@ Feature: Add new MR
     When a user creates a MR
     Then that MR appears on top of the list of MR
 
+  Scenario: Another MR is created
+    Given some MR have already been created
+    When a user creates a MR
+    Then that MR appears on top of the list of MR
+

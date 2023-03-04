@@ -3,29 +3,32 @@ package be.mbict.mrviewer.test.ui
 import be.mbict.mrviewer.MrEvent
 import be.mbict.mrviewer.test.steps.InputStepExecutor
 import be.mbict.mrviewer.test.steps.OutputStepExecutor
+import be.mbict.mrviewer.test.steps.easyRandom
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.hamcrest.Matchers
-import org.jeasy.random.EasyRandom
+import com.gargoylesoftware.htmlunit.WebClient
+import com.gargoylesoftware.htmlunit.html.HtmlPage
+import com.gargoylesoftware.htmlunit.html.HtmlTable
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
 @Component
 @ConditionalOnProperty(value = ["output"], havingValue = "mockmvc")
-class MockMvcOutputStepExecutor(private val mockMvc: MockMvc) : OutputStepExecutor {
+class MockMvcOutputStepExecutor(private val mockMvc: MockMvc, private val webClient: WebClient) : OutputStepExecutor {
 
     override fun checkMrIsFirst(identifier: String) {
-        mockMvc.get("/ui")
-            .andExpect {
-                status { isOk() }
-                view { name("mr") }
-                content {
-                    string(Matchers.containsString("<td><span>$identifier</span>"))
-                }
-            }
+        val firstMr = webClient.getPage<HtmlPage>("/ui")
+            .getHtmlElementById<HtmlTable>("mr-table")
+            .bodies.first()
+            .rows.first()
+            .cells[2]
+            .textContent
+
+        assertThat(firstMr).`as`("MR with title '$identifier' should be first").contains(identifier)
     }
 }
 
@@ -36,7 +39,7 @@ class MockMvcInputStepExecutor(
     private val mapper: ObjectMapper
 ): InputStepExecutor {
 
-    val easyRandom = EasyRandom()
+
 
     override fun addMr(identifier: String) {
         mockMvc.post("/gitlab/hooks/mr") {
