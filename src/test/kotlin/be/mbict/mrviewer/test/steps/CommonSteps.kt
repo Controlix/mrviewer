@@ -2,9 +2,11 @@ package be.mbict.mrviewer.test.steps
 
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
-import org.aspectj.weaver.World
 
-class CommonSteps(private val commonStepExecutor: CommonStepExecutor) {
+class CommonSteps(
+    private val commonStepExecutor: CommonStepExecutor,
+    private val world: World
+) {
 
     @Before
     @Given("no MR have been created yet")

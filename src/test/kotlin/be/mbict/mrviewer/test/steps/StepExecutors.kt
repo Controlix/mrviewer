@@ -3,6 +3,7 @@ package be.mbict.mrviewer.test.steps
 import be.mbict.mrviewer.Mr
 import be.mbict.mrviewer.MrRepository
 import io.cucumber.java.Before
+import io.cucumber.spring.ScenarioScope
 import jakarta.annotation.PostConstruct
 import org.jeasy.random.EasyRandom
 import org.jeasy.random.EasyRandomParameters
@@ -45,6 +46,9 @@ class StartupLogger(val env: Environment) {
 
 object easyRandom : EasyRandom(EasyRandomParameters().randomize(FieldPredicates.named("createdAt"), { LocalDateTime.now() }))
 
-object world {
-    lateinit var mr: Mr
-}
+
+@Component
+@ScenarioScope
+data class World(
+    var mr: Mr?
+)

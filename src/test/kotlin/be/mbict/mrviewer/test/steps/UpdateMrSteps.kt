@@ -6,11 +6,12 @@ import io.cucumber.java.en.When
 
 class UpdateMrSteps(
     private val outputStepExecutor: OutputStepExecutor,
-    private val inputStepExecutor: InputStepExecutor) {
+    private val inputStepExecutor: InputStepExecutor,
+    private val world: World) {
 
     @When("a user comments that MR")
     fun commentMr() {
-        inputStepExecutor.commentMr(world.mr)
+        inputStepExecutor.commentMr(world.mr!!)
     }
 
     @Then("that MR does not appear on top of the list of MR")
