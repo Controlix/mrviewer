@@ -2,6 +2,7 @@ package be.mbict.mrviewer.test.steps
 
 import io.cucumber.java.Before
 import io.cucumber.java.en.Given
+import org.aspectj.weaver.World
 
 class CommonSteps(private val commonStepExecutor: CommonStepExecutor) {
 
@@ -16,4 +17,9 @@ class CommonSteps(private val commonStepExecutor: CommonStepExecutor) {
         commonStepExecutor.createSomeMr()
     }
 
+
+    @Given("a MR that I haven't looked at yet")
+    fun chooseExistingMr() {
+        world.mr = commonStepExecutor.chooseRandomMr()
+    }
 }

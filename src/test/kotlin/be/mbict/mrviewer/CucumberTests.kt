@@ -9,10 +9,11 @@ import org.junit.platform.suite.api.Suite
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.TestPropertySource
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("cucumber")
+@SelectClasspathResource("scenario")
 @ConfigurationParameter(key = Constants.PLUGIN_PROPERTY_NAME, value = "pretty")
 class CucumberTests
 
@@ -20,4 +21,5 @@ class CucumberTests
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@TestPropertySource(properties = ["input=domain", "output=webdriver"])
 object CucumberBootstrap

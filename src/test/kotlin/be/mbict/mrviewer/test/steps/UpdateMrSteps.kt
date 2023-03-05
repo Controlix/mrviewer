@@ -4,17 +4,17 @@ import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
 
-class CreateMrSteps(
+class UpdateMrSteps(
     private val outputStepExecutor: OutputStepExecutor,
     private val inputStepExecutor: InputStepExecutor) {
 
-    @When("a user creates a MR")
-    fun addMr() {
-        inputStepExecutor.addMr("AZertY")
+    @When("a user comments that MR")
+    fun commentMr() {
+        inputStepExecutor.commentMr(world.mr)
     }
 
-    @Then("that MR appears on top of the list of MR")
+    @Then("that MR does not appear on top of the list of MR")
     fun checkMr() {
-        outputStepExecutor.checkMr("AZertY", isFirstInList = true)
+        outputStepExecutor.checkMr("AZertY", isFirstInList = false)
     }
 }

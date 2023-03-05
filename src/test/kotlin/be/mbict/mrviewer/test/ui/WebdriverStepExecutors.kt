@@ -36,9 +36,10 @@ class WebdriverOutputStepExecutor : OutputStepExecutor {
         port = event.webServer.port
     }
 
-    override fun checkMrIsFirst(identifier: String) {
+    override fun checkMr(identifier: String, isFirstInList: Boolean) {
         driver.get("http://localhost:${port}/ui")
-        val text = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/span")).text
-        assertThat(text).contains(identifier)
+        val text = driver.findElement(By.id("mr-table")).findElement(By.xpath("tbody/tr/td[3]/span")).text
+
+        assertThat(text).apply { if (isFirstInList) contains(identifier) else doesNotContain(identifier) }
     }
 }

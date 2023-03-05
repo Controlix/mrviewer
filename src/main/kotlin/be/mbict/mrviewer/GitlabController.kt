@@ -22,7 +22,7 @@ class GitlabController(
     @PostMapping("/init")
     fun init() {
         gitlabClient.allProjects().forEach {
-            mrRepository.saveAll(gitlabClient.allMr(it.id).map { Mr(createdAt = it.createdAt, draft = it.draft, title = it.title) })
+            mrRepository.saveAll(gitlabClient.allMr(it.id).map { Mr(createdAt = it.createdAt, updatedAt = it.updatedAt, draft = it.draft, title = it.title) })
         }
     }
 }

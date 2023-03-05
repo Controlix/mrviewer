@@ -15,7 +15,7 @@ class GitlabHook(val mrRepository: MrRepository) {
     @PostMapping("/mr")
     fun mr(@RequestBody event: MrEvent) {
         println("Got new mr: [${event}]")
-        mrRepository.save(Mr(title = event.objectAttributes.title,createdAt = event.objectAttributes.createdAt))
+        mrRepository.save(Mr(title = event.objectAttributes.title, createdAt = event.objectAttributes.createdAt, updatedAt = event.objectAttributes.updatedAt))
     }
 }
 
@@ -46,5 +46,6 @@ data class ObjectAttributes(
     val action: String?,
     val state: String?,
     val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime,
     val title: String
 )

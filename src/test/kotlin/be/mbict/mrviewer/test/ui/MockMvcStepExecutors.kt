@@ -1,5 +1,6 @@
 package be.mbict.mrviewer.test.ui
 
+import be.mbict.mrviewer.Mr
 import be.mbict.mrviewer.MrEvent
 import be.mbict.mrviewer.test.steps.InputStepExecutor
 import be.mbict.mrviewer.test.steps.OutputStepExecutor
@@ -10,17 +11,20 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage
 import com.gargoylesoftware.htmlunit.html.HtmlTable
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Condition
+import org.assertj.core.condition.Not.not
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
+import java.util.function.Predicate
 
 @Component
 @ConditionalOnProperty(value = ["output"], havingValue = "mockmvc")
 class MockMvcOutputStepExecutor(private val mockMvc: MockMvc, private val webClient: WebClient) : OutputStepExecutor {
 
-    override fun checkMrIsFirst(identifier: String) {
+    override fun checkMr(identifier: String, isFirstInList: Boolean) {
         val firstMr = webClient.getPage<HtmlPage>("/ui")
             .getHtmlElementById<HtmlTable>("mr-table")
             .bodies.first()
@@ -28,7 +32,7 @@ class MockMvcOutputStepExecutor(private val mockMvc: MockMvc, private val webCli
             .cells[2]
             .textContent
 
-        assertThat(firstMr).`as`("MR with title '$identifier' should be first").contains(identifier)
+        assertThat(firstMr).`as`("MR with title '$identifier' should be first").apply { if (isFirstInList) contains(identifier) else doesNotContain(identifier) }
     }
 }
 
@@ -37,9 +41,7 @@ class MockMvcOutputStepExecutor(private val mockMvc: MockMvc, private val webCli
 class MockMvcInputStepExecutor(
     private val mockMvc: MockMvc,
     private val mapper: ObjectMapper
-): InputStepExecutor {
-
-
+) : InputStepExecutor {
 
     override fun addMr(identifier: String) {
         mockMvc.post("/gitlab/hooks/mr") {
@@ -48,5 +50,9 @@ class MockMvcInputStepExecutor(
         }.andExpect {
             status { isOk() }
         }
+    }
+
+    override fun commentMr(mr: Mr) {
+        TODO("Not yet implemented")
     }
 }

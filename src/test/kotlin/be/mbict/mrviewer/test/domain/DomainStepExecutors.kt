@@ -1,7 +1,6 @@
 package be.mbict.mrviewer.test.domain
 
 import be.mbict.mrviewer.Mr
-import be.mbict.mrviewer.MrEvent
 import be.mbict.mrviewer.MrRepository
 import be.mbict.mrviewer.test.steps.InputStepExecutor
 import be.mbict.mrviewer.test.steps.OutputStepExecutor
@@ -14,23 +13,28 @@ import java.time.LocalDateTime
 
 @Component
 @ConditionalOnProperty(value = ["output"], havingValue = "domain")
-class DomainOutputStepExecutor(private val mrRepository: MrRepository): OutputStepExecutor {
+class DomainOutputStepExecutor(private val mrRepository: MrRepository) : OutputStepExecutor {
 
-    override fun checkMrIsFirst(identifier: String) {
-        assertThat(mrRepository.findAll().first().title).contains("AZertY")
+    override fun checkMr(identifier: String, isFirstInList: Boolean) {
+        assertThat(mrRepository.findByOrderByCreatedAtDesc().first().title).apply { if (isFirstInList) contains(identifier) else doesNotContain(identifier) }
     }
 }
+
 @Component
 @ConditionalOnProperty(value = ["input"], havingValue = "domain")
 class DomainInputStepExecutor(
     private val mrRepository: MrRepository,
     private val mapper: ObjectMapper
-): InputStepExecutor {
+) : InputStepExecutor {
 
     val easyRandom = EasyRandom()
 
     override fun addMr(identifier: String) {
-        mrRepository.save(Mr(title = identifier, createdAt = LocalDateTime.now()))
+        mrRepository.save(Mr(title = identifier, createdAt = LocalDateTime.now(), updatedAt = LocalDateTime.now()))
     }
 
+    override fun commentMr(mr: Mr) {
+        mr.updatedAt = LocalDateTime.now()
+        mrRepository.save(mr)
+    }
 }

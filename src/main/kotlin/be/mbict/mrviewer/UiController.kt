@@ -11,9 +11,7 @@ class UiController(val mrRepository: MrRepository) {
 
     @GetMapping
     fun showAll(model: Model): String {
-        mrRepository.findAll().forEach(::println)
-
-        model.addAttribute("mr", mrRepository.findAll())
+        model.addAttribute("mr", mrRepository.findByOrderByCreatedAtDesc().also { println(it) })
 
         return "mr"
     }

@@ -33,6 +33,7 @@ data class MergeRequest(
     val state: String,
     val draft: Boolean,
     val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime,
     val mergeUser: MergeUser?
 )
 
