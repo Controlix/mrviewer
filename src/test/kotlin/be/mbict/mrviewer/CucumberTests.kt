@@ -21,5 +21,5 @@ class CucumberTests
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@TestPropertySource(properties = ["input=mockmvc", "output=mockmvc"])
+@TestPropertySource(properties = ["input=mockmvc", "output=webdriver"])
 object CucumberBootstrap

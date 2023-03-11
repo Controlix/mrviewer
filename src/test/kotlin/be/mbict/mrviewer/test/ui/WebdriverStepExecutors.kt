@@ -8,6 +8,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeOptions
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.web.servlet.context.ServletWebServerInitializedEvent
 import org.springframework.context.event.EventListener
@@ -23,7 +24,7 @@ class WebdriverOutputStepExecutor : OutputStepExecutor {
     @PostConstruct
     fun init() {
         WebDriverManager.chromedriver().setup()
-        driver = ChromeDriver()
+        driver = ChromeDriver(ChromeOptions().addArguments("--remote-allow-origins=*")) // https://stackoverflow.com/questions/75678572/java-io-ioexception-invalid-status-code-403-text-forbidden
     }
 
     @PreDestroy
