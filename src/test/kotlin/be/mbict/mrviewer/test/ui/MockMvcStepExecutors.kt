@@ -9,16 +9,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.gargoylesoftware.htmlunit.WebClient
 import com.gargoylesoftware.htmlunit.html.HtmlPage
 import com.gargoylesoftware.htmlunit.html.HtmlTable
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Condition
-import org.assertj.core.condition.Not.not
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
-import java.util.function.Predicate
 
 @Component
 @ConditionalOnProperty(value = ["output"], havingValue = "mockmvc")
@@ -46,7 +42,9 @@ class MockMvcInputStepExecutor(
     override fun addMr(identifier: String) {
         mockMvc.post("/gitlab/hooks/mr") {
             contentType = MediaType.APPLICATION_JSON
-            content = mapper.writeValueAsString(easyRandom.nextObject(MrEvent::class.java).copy(objectKind = identifier))
+            with(easyRandom.nextObject(MrEvent::class.java)) {
+                content = mapper.writeValueAsString(this.copy(objectAttributes = this.objectAttributes.copy(title = identifier)))
+            }
         }.andExpect {
             status { isOk() }
         }
